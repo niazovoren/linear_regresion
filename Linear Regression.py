@@ -9,6 +9,7 @@ random_Num = np.random.randint(0, 100, 10)
 # print(random_Num)
 
 x = np.random.random(10)
+x_reshaped = x.reshape(-1, 1)
 # print(x)
 
 g = np.random.randint(0, 10, 5) * 3
@@ -21,50 +22,79 @@ random_fibonacci = np.random.choice(fibonacci_seq, 1)
 
 # Preparation of labels for first Dataset
 
-y_line_1 = g[1] * x + np.random.normal(10)
+y_line_1 = (g[1] * x) + np.random.normal(10)
 
 print(g[1])
 
 # Preparation of labels for second Dataset
 
-y_line_2 = g[2] * x + 5 + np.random.normal(10)
+y_line_2 = (g[2] * x + 5) + np.random.normal(10)
 # print(y_line_2)
 
 # Preparation of labels for second Dataset
 
 y_line_3 = g[3] * (x ** 2) + 4 * x + 10 + np.random.normal(10)
 
-# print(y_line_3)
-
-# plt.figure()
-
-# plt.subplot(311)
-# plt.scatter(x, y_line_1)
-
-# plt.subplot(312)
-# plt.scatter(x, y_line_2)
-
-# plt.subplot(313)
-# plt.scatter(x, y_line_3)
-
-# plt.show()
-
 # Regression calculation for first Dataset
-X_transpose = np.transpose(x.reshape((-1, 1)))
-# print(np.shape(x))
-# print(np.shape(X_transpose))
-# print(X_transpose)
-print((X_transpose @ x.reshape((-1, 1)))**-1 @ X_transpose)
-h = ((X_transpose @ x.reshape((-1, 1)))**-1 @ X_transpose) @ y_line_1.reshape((-1, 1))
+
+# print((X_transpose @ x.reshape((-1, 1)))**-1 @ X_transpose)
+h = (((x @ x_reshaped) ** -1) * x) @ y_line_1.reshape((-1, 1))
 print(h)
 
-plt.figure()
-plt.plot(x, x * h)
-plt.scatter(x, y_line_1)
-plt.show()
+# plt.figure()
+# plt.plot(x, x * h)
+# plt.scatter(x, y_line_1)
+# plt.show()
 
 # using linear regression with sklearn
 
 reg = linear_model.LinearRegression()
 h2 = reg.fit(x.reshape((-1, 1)), y_line_1)
 print(reg.coef_)
+
+# Regression calculation for Second Dataset
+print('\n \33[1;32m Second Data Results \33[1;0m')
+print('The real a and b:', g[2], 5)
+x_ones = np.ones(10)
+x_ones = x_ones[:, np.newaxis]
+x_new = np.hstack((x_reshaped, x_ones))
+x_new_transpose = x_new.transpose()
+result = ((np.linalg.inv(x_new_transpose @ x_new)) @ x_new_transpose @ y_line_2.reshape((-1, 1)))
+print('Calculated a and b with nominal equations:', result)
+
+# Regression calculation for Second Dataset with sklearn
+
+reg2 = linear_model.LinearRegression(fit_intercept=False)
+result2 = reg2.fit(x_new, y_line_2)
+print('Calculated a and b with sklearn model:', reg2.coef_)
+'\n'
+
+# Regression calculation for Third Dataset
+print('\n \033[1;32m Third Data Results: \033[1;0m')
+print('The real a, b and c:', g[3], 4, 10)
+x_squared = x_reshaped ** 2
+x_3 = np.hstack((x_squared, x_reshaped, x_ones))
+x_3_transposed = x_3.transpose()
+result3 = ((np.linalg.inv(x_3_transposed @ x_3)) @ x_3_transposed @ y_line_3.reshape((-1, 1)))
+print('Calculated a, b and c with nominal equations:', result3)
+
+# Regression calculation for Second Dataset with sklearn
+
+reg3 = linear_model.LinearRegression(fit_intercept=False)
+result31 = reg3.fit(x_3, y_line_3)
+print('Calculated a, b and c with sklearn model:', reg3.coef_)
+
+# Show all data in figures
+plt.figure(1)
+plt.scatter(x, y_line_1)
+new_y = h * x
+plt.plot(np.linspace(0, 1, 10),np.linspace(0, 1, 10)*h, 'r')
+plt.title('First Data')
+plt.show()
+
+plt.figure(2)
+plt.scatter(x, y_line_2)
+new_y_2 = result[0]*np.linspace(0, 1, 10) + result[1]
+plt.plot(np.linspace(0, 1, 10), new_y_2, 'r')
+plt.title('Second Data')
+plt.show()
