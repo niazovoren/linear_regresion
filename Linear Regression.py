@@ -10,11 +10,12 @@ from sklearn import linear_model
 random_Num = np.random.randint(0, 100, 10)
 # print(random_Num)
 
-x = np.random.random(10)
+x = np.random.uniform(0, 1, 10)
 x_reshaped = x.reshape(-1, 1)
 # print(x)
 
 g = np.random.randint(0, 10, 5) * 3
+
 # print(g)
 
 fibonacci_seq = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
@@ -24,18 +25,19 @@ random_fibonacci = np.random.choice(fibonacci_seq, 1)
 
 # Preparation of labels for first Dataset
 
-y_line_1 = (g[1] * x) + np.random.normal(10)
+y_line_1 = (g[1] * x) + np.random.normal(size=10)
+
 
 print(g[1])
 
 # Preparation of labels for second Dataset
 
-y_line_2 = (g[2] * x + 5) + np.random.normal(10)
+y_line_2 = (g[2] * x + 5) + np.random.normal(size=10)
 # print(y_line_2)
 
 # Preparation of labels for second Dataset
 
-y_line_3 = g[3] * (x ** 2) + 4 * x + 10 + np.random.normal(10)
+y_line_3 = (g[3] * (x ** 2) + 4 * x + 10) + 0.1*np.random.normal(size=10)
 
 # Regression calculation for first Dataset
 
@@ -77,7 +79,7 @@ print('The real a, b and c:', g[3], 4, 10)
 x_squared = x_reshaped ** 2
 x_3 = np.hstack((x_squared, x_reshaped, x_ones))
 x_3_transposed = x_3.transpose()
-result3 = ((np.linalg.inv(x_3_transposed @ x_3)) @ x_3_transposed @ y_line_3.reshape((-1, 1)))
+result3 = (np.linalg.inv(x_3_transposed @ x_3)) @ x_3_transposed @ y_line_3.reshape((-1, 1))
 print('Calculated a, b and c with normal equations:', result3)
 
 # Regression calculation for Second Dataset with sklearn
