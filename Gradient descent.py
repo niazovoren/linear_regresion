@@ -4,14 +4,14 @@ from Tools.scripts.nm2def import symbols
 # sum_loss_function_matrix = np.zeros((3, 200))
 sum_loss_function = []
 total_sum_loss_function = np.empty((0, 200), float)
-print(total_sum_loss_function.shape)
+# print(total_sum_loss_function.shape)
 lr = [0.01, 0.1, 1]
 for i in lr:
     print(i)
     g = 0
     a = 2
     b = 2
-    c = 0
+    c = 2
     x = [0, 1, 2]
     x = np.array(x)
     y = [1, 3, 7]
@@ -19,12 +19,12 @@ for i in lr:
     # hypothesis class h(x) = a + b*x + c*x**2
     f = 200
     while f > 0:
-        loss_function = sum((y - (a + b * x + c * (x ** 2))) ** 2)
+        loss_function = sum(((a + b * x + c * (x ** 2)) - y)**2)
         sum_loss_function.append(loss_function)
 
-        dl_da = -2 * (y - (a + b * x + c * (x ** 2)))
-        dl_db = 2 * (y - (a + b * x + c * (x ** 2))) * (-x)
-        dl_dc = 2 * (y - (a + b * x + c * (x ** 2))) * (x**2)
+        dl_da = sum(2 * ((a + b * x + c * (x ** 2)) - y))
+        dl_db = sum(2 * ((a + b * x + c * (x ** 2)) - y) * x)
+        dl_dc = sum(2 * ((a + b * x + c * (x ** 2)) - y) * (x**2))
 
         step_size_a = i * dl_da
         step_size_b = i * dl_db
@@ -34,17 +34,17 @@ for i in lr:
         b = b - step_size_b
         c = c - step_size_c
         f = f - 1
-    print(sum_loss_function)
-    print(len(sum_loss_function))
+    # print(sum_loss_function)
+    # print(len(sum_loss_function))
     h = np.array(sum_loss_function).reshape((1, -1))
     new_array = np.array(sum_loss_function)
     total_sum_loss_function = np.concatenate((total_sum_loss_function, h), axis=0)
     sum_loss_function.clear()
-
-print(total_sum_loss_function.shape)
+print(total_sum_loss_function[1, :100])
+# print(total_sum_loss_function.shape)
 plt.figure()
-plt.plot(np.linspace(0, 100, 100), total_sum_loss_function[0, :100])
-plt.plot(np.linspace(0, 100, 100), total_sum_loss_function[1, :100], 'r')
+plt.plot(np.linspace(0, 100, 100), total_sum_loss_function[0, :100]/np.amax(total_sum_loss_function[0, :100]))
+plt.plot(np.linspace(0, 100, 100), (total_sum_loss_function[1, :100])/np.amax(total_sum_loss_function[1, :100]), 'r')
 plt.legend(['lr=0.01', 'lr=0.1'])
 plt.show()
 
@@ -72,9 +72,9 @@ while f > 0:
     loss_function = sum((y - (a + b * x + c * (x ** 2))) ** 2)
     sum_loss_function_new.append(loss_function)
 
-    dl_da = -2 * (y - (a + b * x + c * (x ** 2)))
-    dl_db = 2 * (y - (a + b * x + c * (x ** 2))) * (-x)
-    dl_dc = 2 * (y - (a + b * x + c * (x ** 2))) * (-2 * x * c)
+    dl_da = sum(-2 * (y - (a + b * x + c * (x ** 2))))
+    dl_db = sum(2 * (y - (a + b * x + c * (x ** 2))) * (-x))
+    dl_dc = sum(2 * (y - (a + b * x + c * (x ** 2))) * (-2 * x * c))
 
     step_size_a = 0.1 * dl_da
     step_size_b = 0.1 * dl_db
