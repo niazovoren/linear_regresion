@@ -24,7 +24,7 @@ for i in lr:
 
         dl_da = -2 * (y - (a + b * x + c * (x ** 2)))
         dl_db = 2 * (y - (a + b * x + c * (x ** 2))) * (-x)
-        dl_dc = 2 * (y - (a + b * x + c * (x ** 2))) * (-2 * x * c)
+        dl_dc = 2 * (y - (a + b * x + c * (x ** 2))) * (x**2)
 
         step_size_a = i * dl_da
         step_size_b = i * dl_db
