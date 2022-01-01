@@ -55,46 +55,46 @@ plt.show()
 
 # Learning rate 0.1 and momentum 0.9
 
-sum_loss_function_new =[]
-a = 2
-b = 2
-c = 0
-v1 = 0
-v2 = 0
-v3 = 0
-x = [0, 1, 2]
-x = np.array(x)
-y = [1, 3, 7]
-y = np.array(y)
-
-f = 200
-while f > 0:
-    loss_function = sum((y - (a + b * x + c * (x ** 2))) ** 2)
-    sum_loss_function_new.append(loss_function)
-
-    dl_da = sum(-2 * (y - (a + b * x + c * (x ** 2))))
-    dl_db = sum(2 * (y - (a + b * x + c * (x ** 2))) * (-x))
-    dl_dc = sum(2 * (y - (a + b * x + c * (x ** 2))) * (-2 * x * c))
-
-    step_size_a = 0.1 * dl_da
-    step_size_b = 0.1 * dl_db
-    step_size_c = 0.1 * dl_dc
-
-    v1_new = 0.9 * v1 + step_size_a
-    v2_new = 0.9 * v2 + step_size_b
-    v3_new = 0.9 * v3 + step_size_c
-
-    a = a - v1_new
-    b = b - v2_new
-    c = c - v3_new
-    f = f - 1
-
-    v1 = v1_new
-    v2 = v2_new
-    v3 = v3_new
-
-plt.figure()
-plt.plot(np.linspace(0, 100, 100), total_sum_loss_function[1, :100])
-plt.plot(np.linspace(0, 100, 100), sum_loss_function_new[:100], 'r')
-plt.legend(['No momentum', 'with momentum'])
-plt.show()
+# sum_loss_function_new =[]
+# a = 2
+# b = 2
+# c = 0
+# v1 = 0
+# v2 = 0
+# v3 = 0
+# x = [0, 1, 2]
+# x = np.array(x)
+# y = [1, 3, 7]
+# y = np.array(y)
+#
+# f = 200
+# while f > 0:
+#     loss_function = sum((y - (a + b * x + c * (x ** 2))) ** 2)
+#     sum_loss_function_new.append(loss_function)
+#
+#     dl_da = sum(-2 * (y - (a + b * x + c * (x ** 2))))
+#     dl_db = sum(2 * (y - (a + b * x + c * (x ** 2))) * (-x))
+#     dl_dc = sum(2 * (y - (a + b * x + c * (x ** 2))) * (-2 * x * c))
+#
+#     step_size_a = 0.1 * dl_da
+#     step_size_b = 0.1 * dl_db
+#     step_size_c = 0.1 * dl_dc
+#
+#     v1_new = 0.9 * v1 + step_size_a
+#     v2_new = 0.9 * v2 + step_size_b
+#     v3_new = 0.9 * v3 + step_size_c
+#
+#     a = a - v1_new
+#     b = b - v2_new
+#     c = c - v3_new
+#     f = f - 1
+#
+#     v1 = v1_new
+#     v2 = v2_new
+#     v3 = v3_new
+#
+# plt.figure()
+# plt.plot(np.linspace(0, 100, 100), total_sum_loss_function[1, :100])
+# plt.plot(np.linspace(0, 100, 100), sum_loss_function_new[:100], 'r')
+# plt.legend(['No momentum', 'with momentum'])
+# plt.show()
