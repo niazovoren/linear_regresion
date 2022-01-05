@@ -5,7 +5,7 @@ from sklearn import datasets
 
 def split_data():
     iris = datasets.load_iris()
-    X = iris.data  # we only take the first two features.
+    X = iris.data
     y = iris.target
     np.random.seed(2)
     np.random.shuffle(X)
@@ -56,13 +56,38 @@ def accuracy(Y_predict, Y_test):
 
 # Predict the value in Test
 
-X_train1, X_test1, y_train1, y_test1 = split_data()
-All_targets = np.empty((0, len(y_test1)))
-for i in range(len(X_test1)):
-    distance = Distance_Calculation(X_train1, X_test1[i, :])
-    labels = nearest_neighbours(distance, y_train1, 4)
+# X_train1, X_test1, y_train1, y_test1 = split_data()
+# All_targets = np.empty((0, len(y_test1)))
+# for i in range(len(X_test1)):
+#     distance = Distance_Calculation(X_train1, X_test1[i, :])
+#     labels = nearest_neighbours(distance, y_train1, 4)
+#     target = Voting(labels)
+#     All_targets = np.append(All_targets, target)
+#
+# print('The accuracy is: {}%'.format(accuracy(All_targets, y_test1)))
+
+# KNN prototype
+
+X_train2, X_test2, y_train2, y_test2 = split_data()
+X_prototype = X_train2[:10, :]
+Y_prototype = y_train2[:10]
+
+for i in range(11, len(X_train2)):
+    distance_calc = Distance_Calculation(X_prototype, X_train2[i, :])
+    labels = nearest_neighbours(distance_calc, Y_prototype, 3)
+    predict_value = Voting(labels)
+    if predict_value != y_train2[i]:
+        X_prototype = np.vstack((X_prototype, X_train2[i, :]))
+        Y_prototype = np.hstack((Y_prototype, y_train2[i]))
+print(X_prototype.shape)
+
+
+All_targets = np.empty((0, len(y_test2)))
+for i in range(len(X_test2)):
+    distance = Distance_Calculation(X_prototype, X_test2[i, :])
+    labels = nearest_neighbours(distance, Y_prototype, 4)
     target = Voting(labels)
     All_targets = np.append(All_targets, target)
 
-print('The accuracy is: {}%'.format(accuracy(All_targets, y_test1)))
+print('The accuracy is: {}%'.format(accuracy(All_targets, y_test2)))
 
