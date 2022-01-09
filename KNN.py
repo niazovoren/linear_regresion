@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import datasets
+import time
 
 
 def split_data():
@@ -56,15 +57,17 @@ def accuracy(Y_predict, Y_test):
 
 # Predict the value in Test
 
-# X_train1, X_test1, y_train1, y_test1 = split_data()
-# All_targets = np.empty((0, len(y_test1)))
-# for i in range(len(X_test1)):
-#     distance = Distance_Calculation(X_train1, X_test1[i, :])
-#     labels = nearest_neighbours(distance, y_train1, 4)
-#     target = Voting(labels)
-#     All_targets = np.append(All_targets, target)
-#
-# print('The accuracy is: {}%'.format(accuracy(All_targets, y_test1)))
+X_train1, X_test1, y_train1, y_test1 = split_data()
+All_targets = np.empty((0, len(y_test1)))
+start_time1 = time.time()
+for i in range(len(X_test1)):
+    distance = Distance_Calculation(X_train1, X_test1[i, :])
+    labels = nearest_neighbours(distance, y_train1, 4)
+    target = Voting(labels)
+    All_targets = np.append(All_targets, target)
+end_time1 = time.time()
+print('KNN calculate time: {}s'.format(end_time1-start_time1))
+print('The accuracy is: {}%'.format(accuracy(All_targets, y_test1)))
 
 # KNN prototype
 
@@ -83,11 +86,13 @@ print(X_prototype.shape)
 
 
 All_targets = np.empty((0, len(y_test2)))
+start_time = time.time()
 for i in range(len(X_test2)):
     distance = Distance_Calculation(X_prototype, X_test2[i, :])
     labels = nearest_neighbours(distance, Y_prototype, 4)
     target = Voting(labels)
     All_targets = np.append(All_targets, target)
-
+end_time = time.time()
+print('Prototype calculate time: {}s'.format(end_time - start_time))
 print('The accuracy is: {}%'.format(accuracy(All_targets, y_test2)))
 
