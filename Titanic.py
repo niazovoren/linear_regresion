@@ -23,10 +23,16 @@ Y_training_label = df.iloc[:, 1:2].copy()
 
 
 # Finding Nan values in Data
-print(X_training_data.isnull().sum())
+# print(X_training_data.isnull().sum())
+age_median_value = X_training_data['Age'].median(axis=0, skipna=True)
+# X_training_data.loc[X_training_data['Age'] == 'NaN'] = age_median_value
+X_training_data['Age'] = X_training_data['Age'].fillna(age_median_value)
+X_training_data = X_training_data.drop('Cabin', axis=1)
+X_training_data = X_training_data.drop('Embarked', axis=1)
+# print(X_training_data.isnull().sum())
 
 
-# plt.figure(figsize=(12, 10))
-# cor = df.corr()
-# sns.heatmap(cor, annot=True, cmap=plt.cm.Reds)
-# plt.show()
+plt.figure(figsize=(12, 10))
+cor = X_training_data.corr()
+sns.heatmap(cor, annot=True, cmap=plt.cm.Reds)
+plt.show()
