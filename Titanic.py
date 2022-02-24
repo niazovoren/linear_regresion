@@ -69,30 +69,30 @@ Y_training_array = Y_training_label.to_numpy().ravel()
 # print(X_train_array.shape)
 
 
-# model = LogisticRegression()
-# solvers = ['newton-cg','liblinear']
-# penalty = ['l2']
-# c_values = [100, 10, 1.0, 0.1, 0.01]
-# grid = dict(solver=solvers, penalty=penalty, C=c_values)
-# cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-# grid_search = GridSearchCV(estimator=model, param_grid=grid, n_jobs=-1, cv=cv, scoring='accuracy', error_score=0)
-# grid_result = grid_search.fit(X_train_array, Y_training_array)
-# print(grid_result.best_score_, grid_result.best_params_)
-# result = grid_result.predict(X_test_array)
-# print(accuracy_score(Y_test_array, result))
-#
-#
-model = KNeighborsClassifier()
-n_neighbors = [5, 8, 12]
-weights = ['uniform', 'distance']
-algorithm = ['ball_tree', 'kd_tree', 'brute']
-grid = dict(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm)
+model = LogisticRegression()
+solvers = ['newton-cg','liblinear']
+penalty = ['l2']
+c_values = [100, 10, 1.0, 0.1, 0.01]
+grid = dict(solver=solvers, penalty=penalty, C=c_values)
 cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 grid_search = GridSearchCV(estimator=model, param_grid=grid, n_jobs=-1, cv=cv, scoring='accuracy', error_score=0)
 grid_result = grid_search.fit(X_train_array, Y_training_array)
 print(grid_result.best_score_, grid_result.best_params_)
 result = grid_result.predict(X_test_array)
 print(accuracy_score(Y_test_array, result))
+#
+#
+# model = KNeighborsClassifier()
+# n_neighbors = [5, 8, 12]
+# weights = ['uniform', 'distance']
+# algorithm = ['ball_tree', 'kd_tree', 'brute']
+# grid = dict(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm)
+# cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+# grid_search = GridSearchCV(estimator=model, param_grid=grid, n_jobs=-1, cv=cv, scoring='accuracy', error_score=0)
+# grid_result = grid_search.fit(X_train_array, Y_training_array)
+# print(grid_result.best_score_, grid_result.best_params_)
+# result = grid_result.predict(X_test_array)
+# print(accuracy_score(Y_test_array, result))
 
 
 # model = BaggingClassifier()
@@ -116,3 +116,6 @@ print(accuracy_score(Y_test_array, result))
 # grid_search = GridSearchCV(estimator=model, param_grid=grid, n_jobs=-1, cv=cv, scoring='accuracy',error_score=0)
 # grid_result = grid_search.fit(X_train_array, Y_training_array)
 # print(grid_result.best_score_, grid_result.best_params_)
+
+
+
