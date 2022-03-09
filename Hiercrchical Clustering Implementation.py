@@ -1,8 +1,7 @@
-import matplotlib.pyplot
+
 import numpy as np
 import scipy
-import sklearn
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from sklearn import datasets
 import pandas as pd
 from scipy.spatial.distance import squareform, pdist
@@ -67,9 +66,26 @@ class HierarchicalClustering:
 
 HC = HierarchicalClustering(X)
 HC.fit()
-print(len(HC.clusters))
+print(len(HC.clusters[0]))
+print(len(HC.clusters[1]))
 
-# sns.heatmap(HC.distance_matrix[:10, :10], cmap=plt.cm.Reds)
-# plt.show()
-# i = np.where(HC.distance_matrix == np.min(HC.distance_matrix))
-# print(i[0][0])
+norm_vector = []
+for i in range(len(HC.clusters[0])):
+    number_of_row = HC.clusters[0][i]
+    norm_vector.append(np.linalg.norm(X[number_of_row, :]))
+
+norm_vector2 = []
+for i in range(len(HC.clusters[1])):
+    number_of_row = HC.clusters[1][i]
+    norm_vector2.append(np.linalg.norm(X[number_of_row, :]))
+
+plt.scatter(HC.clusters[0], norm_vector, color='hotpink')
+plt.scatter(HC.clusters[1], norm_vector2, color='#88c999')
+
+plt.show()
+
+#normalizition
+# StandartScalar().fit_transform
+
+
+# if __name__ == '__main__ '
