@@ -1,4 +1,3 @@
-
 import numpy as np
 import scipy
 import matplotlib.pyplot as plt
@@ -14,6 +13,7 @@ import scipy.cluster.hierarchy as sch
 
 iris = datasets.load_iris()
 X = iris.data[:, :]
+
 
 # normalize_data = sklearn.preprocessing.normalize(X, norm='l2', axis=0, copy=True)
 # new_data = pd.DataFrame(X)
@@ -35,7 +35,7 @@ class HierarchicalClustering:
 
     def Calc_distance_matrix(self):
         self.distance_matrix = scipy.spatial.distance_matrix(self.train_data \
-                                                             , self.train_data, p=2)
+                                                             ,self.train_data, p=2)
         self.distance_matrix += np.diag([np.inf] * len(self.train_data))
         return self.distance_matrix
 
@@ -84,7 +84,7 @@ plt.scatter(HC.clusters[1], norm_vector2, color='#88c999')
 
 plt.show()
 
-#normalizition
+# normalizition
 # StandartScalar().fit_transform
 
 

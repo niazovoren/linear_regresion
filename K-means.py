@@ -40,9 +40,11 @@ class KMeans:
         # random_index_from_data1 = np.random.randint(len(self.X_train), size=self.number_clusters) #duplicates start point!
         random_index_from_data = random.sample([i for i in range(len(self.X_train))], self.number_clusters)
         initial_random_points_from_data = self.X_train[random_index_from_data]
+
+        random_points = np.array([np.random.rand(self.number_of_features)] for i in range(self.number_clusters))
         # X_train_without_start_points = np.delete(self.X_train, random_index_from_data, 0)
         # return X_train_without_start_points, random_points_from_data
-        return initial_random_points_from_data
+        return initial_random_points_from_data, random_points
 
     def Calc_distance_matrix(self, points):
         self.distance_matrix = spatial.distance_matrix(points, self.X_train, p=2)
@@ -61,14 +63,19 @@ class KMeans:
         return new_centroid
 
     def run(self, number_of_iterations):
-        points = self.start_points()
+        points, points2 = self.start_points()
+        print(type(points))
+        print(type(points2))
+        print(len(points))
+        print(len(points2))
+
         i = 0
         while i < number_of_iterations:
             self.Calc_distance_matrix(points)
             self.closest_points()
             self.make_clusters()
-            points = self.finding_new_centroid()
             if i < number_of_iterations - 1:
+                points = self.finding_new_centroid()
                 self.cluster.clear()
             i += 1
         return points
@@ -87,7 +94,7 @@ if __name__ == '__main__':
     # run_K_means = KMeans(dataset)
     number_clusters = []
     elbow = []
-    for i in range(1, 20):
+    for i in range(1, 8):
         number_clusters.append(i)
         run_K_means = KMeans(dataset, number_of_clusters=i)
         points = run_K_means.run(3)
